@@ -7,8 +7,8 @@ import argparse
 import sys
 
     # w:480, h:512
-IMAGE_WIDTH: int = 480
-IMAGE_HEIHGT: int = 512
+IMAGE_WIDTH: int = 720
+IMAGE_HEIHGT: int = 768
 
 
 class Processor(object):
@@ -68,6 +68,7 @@ class Grayscale(Processor):
     def process(self):
         """Convert the input image into grayscale."""
         self.output_image = cv.cvtColor(self.input_image, cv.COLOR_BGR2GRAY)
+        cv.COLOR_BAYER_BG2GRAY
         return self.output_image
 
 
@@ -163,6 +164,7 @@ class ContourDetector(Processor):
                 target = approx
                 break
         if target is not None:
+            """
             cv.drawContours(
                 self.original_image,
                 [target],
@@ -170,7 +172,10 @@ class ContourDetector(Processor):
                 (255, 255, 255),
                 5
             )
+            """
         self.output_image = copy.deepcopy(self.original_image)
+        for p in target:
+            cv.circle(self.output_image, tuple(p[0]), 4, (255, 255, 255), 5)
         return (self.output_image, target)
 
 
@@ -223,7 +228,8 @@ class Scanner(object):
             handler = processor(input_img)
             input_img = handler.process()
             handler.show()
-        _, corners = ContourDetector(input_img).process()
+        img, corners = ContourDetector(input_img).process()
+        cv.imshow("corner", img)
         # Flaten the array
         #
         # The output of the corner detector is an array of 2-level nested items

@@ -3,3 +3,5 @@ venv/
 
 # vscode editor settings file
 .vscode/
+
+src/outputs/
