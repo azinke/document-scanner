@@ -7,8 +7,8 @@ import argparse
 import sys
 
     # w:480, h:512
-IMAGE_WIDTH: int = 480
-IMAGE_HEIHGT: int = 512
+IMAGE_WIDTH: int = 720
+IMAGE_HEIHGT: int = 768
 
 
 class Processor(object):
